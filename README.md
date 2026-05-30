@@ -16,17 +16,12 @@ keyboard 🐈.
 
 ## Preview
 
-<!--
-  Drop a screenshot at docs/preview.png and a GIF at docs/demo.gif,
-  then uncomment the lines below. Capture instructions: docs/README.md.
+![Clauding Around preview](docs/preview.png)
 
-  ![Clauding Around preview](docs/preview.png)
+![Clauding Around demo](docs/demo.gif)
 
-  ![Clauding Around demo](docs/demo.gif)
--->
-
-_Screenshots and GIF coming soon — see [`docs/README.md`](docs/README.md) for
-how to record and where to put them._
+> Assets are captured automatically with Playwright. Regenerate them anytime
+> with `npm run capture` — see [`docs/README.md`](docs/README.md) for details.
 
 ## What it does
 
