@@ -103,28 +103,23 @@ npm run preview   # serve the built bundle
 - **Vercel.** Import the repo; framework preset = **Vite**; build command
   `npm run build`; output directory `dist`.
 
-## Recording a GIF for the README
+## Regenerating showcase assets
 
-Short version (macOS):
+This repo includes an automated Playwright capture script:
 
 ```bash
-brew install gifski
-# record with Cmd-Shift-5 → Record Selected Portion
-gifski input.mov -o docs/demo.gif --fps 12 --width 1200
+npm run capture
 ```
 
-Suggested ≤ 8s flow:
+It rebuilds the app, launches a local preview server, and captures:
 
-1. Open the live demo.
-2. Click **K-pop Comeback**.
-3. Toggle to **Emoji**.
-4. **Copy JSON**.
-5. Click **Cat on Keyboard**.
-6. Toggle to **Kaomoji**.
-7. **Copy share link**.
+- `docs/preview.png`
+- `docs/demo.webm`
+- `docs/demo.gif`
 
-Full instructions and an alternate (Kap / CleanShot) workflow live in
-[`docs/README.md`](docs/README.md).
+The GIF is generated with `ffmpeg` when available. See
+[`docs/README.md`](docs/README.md) for capture details and manual alternatives
+(macOS Screenshot.app / Kap / gifski).
 
 ## Accessibility
 

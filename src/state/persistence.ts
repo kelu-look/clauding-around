@@ -39,17 +39,15 @@ export function resolveId(raw: string): string | null {
   return null
 }
 
-const STORAGE_KEY = 'clauding-around:state:v1'
-
 /**
  * Parse a URL hash into a partial AppState.
  *
  * Behavior:
- *   - Empty hash → `{}` (no opinion; caller falls back to storage/defaults).
- *   - If the hash has an id segment and it cannot be resolved to a valid
- *     personality, the entire hash is rejected and `{}` is returned. We don't
- *     apply just the style/mode while silently resetting the id to default,
- *     because that produces confusing "your link got rewritten" behavior.
+ *   - Empty hash → `{}` (caller falls back to defaults).
+ *   - Hash with an id segment that cannot be resolved to a valid personality:
+ *     reject the entire hash and return `{}`. We don't apply just style/mode
+ *     while silently resetting the id, because that creates confusing
+ *     "your link got rewritten" behavior.
  *   - Otherwise, individually invalid style/mode segments are dropped.
  */
 export function parseHash(hash: string): Partial<AppState> {
@@ -81,39 +79,25 @@ export function serializeHash(s: AppState): string {
   return `#${s.personalityId}/${s.style}/${s.mode}`
 }
 
-export function loadStorage(): Partial<AppState> {
-  if (typeof window === 'undefined') return {}
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return {}
-    const parsed = JSON.parse(raw) as Partial<AppState>
-    const out: Partial<AppState> = {}
-    if (parsed.personalityId) {
-      const resolved = resolveId(parsed.personalityId)
-      if (resolved) out.personalityId = resolved
-    }
-    if (parsed.style && isValidStyle(parsed.style)) out.style = parsed.style
-    if (parsed.mode && isValidMode(parsed.mode)) out.mode = parsed.mode
-    return out
-  } catch {
-    return {}
-  }
+export function isDefaultState(s: AppState): boolean {
+  return (
+    s.personalityId === DEFAULTS.personalityId &&
+    s.style === DEFAULTS.style &&
+    s.mode === DEFAULTS.mode
+  )
 }
 
-export function saveStorage(s: AppState): void {
-  if (typeof window === 'undefined') return
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(s))
-  } catch {
-    // Quota or private-mode failures aren't fatal — UI still works in-memory.
-  }
-}
-
+/**
+ * Initial state comes from the URL hash if present, otherwise defaults.
+ *
+ * localStorage is intentionally *not* consulted here: persisting selection
+ * across sessions caused the clean base URL to silently rewrite into a
+ * leftover hash on first load. Hash links remain the single source of truth
+ * for sharing state; clean URLs always boot to defaults.
+ */
 export function loadInitialState(): AppState {
   if (typeof window === 'undefined') return DEFAULTS
-  const fromStorage = loadStorage()
-  const fromHash = parseHash(window.location.hash)
-  return { ...DEFAULTS, ...fromStorage, ...fromHash }
+  return { ...DEFAULTS, ...parseHash(window.location.hash) }
 }
 
 export function updateHash(s: AppState): void {
@@ -124,6 +108,20 @@ export function updateHash(s: AppState): void {
     history.replaceState(null, '', next)
   } catch {
     window.location.hash = next
+  }
+}
+
+export function clearHash(): void {
+  if (typeof window === 'undefined') return
+  if (!window.location.hash) return
+  try {
+    history.replaceState(
+      null,
+      '',
+      window.location.pathname + window.location.search,
+    )
+  } catch {
+    /* ignore */
   }
 }
 

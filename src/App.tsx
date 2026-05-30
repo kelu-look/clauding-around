@@ -7,9 +7,9 @@ import { JsonConfigCard } from './components/JsonConfigCard'
 import { Footer } from './components/Footer'
 import { personalities } from './data/personalities'
 import {
+  isDefaultState,
   loadInitialState,
   parseHash,
-  saveStorage,
   serializeHash,
   updateHash,
 } from './state/persistence'
@@ -19,8 +19,12 @@ export default function App() {
   const [state, setState] = useState(loadInitialState)
   const reducedMotion = useReducedMotion()
 
+  // Keep the URL hash in sync with state, but never write a hash when the user
+  // arrived on a clean URL and hasn't changed anything yet. This keeps
+  // https://.../clauding-around/ from auto-rewriting into a leftover hash.
   useEffect(() => {
-    saveStorage(state)
+    if (typeof window === 'undefined') return
+    if (isDefaultState(state) && window.location.hash === '') return
     updateHash(state)
   }, [state])
 

@@ -119,7 +119,8 @@ async function captureScreenshot(browser) {
     colorScheme: 'dark',
   })
   const page = await ctx.newPage()
-  await page.goto(BASE_URL + '#cozy-study/classic/append', { waitUntil: 'networkidle' })
+  // Use the clean base URL so the screenshot reflects the no-hash default state.
+  await page.goto(BASE_URL, { waitUntil: 'networkidle' })
   // Let fonts and spinner settle for a clean frame.
   await page.waitForTimeout(900)
   const out = join(docsDir, 'preview.png')

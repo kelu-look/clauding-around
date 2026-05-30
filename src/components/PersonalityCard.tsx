@@ -20,18 +20,20 @@ export function PersonalityCard({ personality, selected, onSelect }: Personality
     >
       {selected && (
         <span
-          className="absolute right-4 top-4 pill !border-accent-violet/40 !bg-accent-violet/15 !text-white"
+          className="absolute right-3 top-3 inline-flex items-center rounded-full border border-accent-violet/40 bg-accent-violet/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-white"
           aria-label="Currently selected — in studio"
         >
           in studio
         </span>
       )}
 
-      <div className="flex items-center gap-3">
-        <span className="text-2xl leading-none" aria-hidden>
+      <div className={`flex items-center gap-3 ${selected ? 'pr-16' : ''}`}>
+        <span className="shrink-0 text-2xl leading-none" aria-hidden>
           {personality.emoji}
         </span>
-        <h3 className="text-lg font-semibold text-white">{personality.name}</h3>
+        <h3 className="text-lg font-semibold leading-tight text-white">
+          {personality.name}
+        </h3>
       </div>
 
       <p className="text-sm text-slateText-dim leading-snug">

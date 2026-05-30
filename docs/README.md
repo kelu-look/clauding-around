@@ -51,6 +51,40 @@ Stops the preview server and closes the browser on exit (or on error).
 | `CAPTURE_BASE_URL` | Use an already-running server instead of spawning `vite preview`. Example: `CAPTURE_BASE_URL=http://127.0.0.1:5173/ npm run capture`. |
 | `CAPTURE_PORT` | Port for the auto-spawned `vite preview` (default `4173`). |
 
+## Manual alternatives (without the script)
+
+If you'd rather record by hand:
+
+### macOS Screenshot.app + gifski
+
+```bash
+brew install gifski
+```
+
+1. `Cmd-Shift-5` → Record Selected Portion → record the demo flow.
+2. Save the `.mov` somewhere.
+3. Convert:
+
+```bash
+gifski input.mov -o docs/demo.gif --fps 12 --width 1200
+```
+
+### Kap / CleanShot
+
+Export directly to GIF, drop it into `docs/demo.gif`.
+
+### Suggested demo flow (~6–8s)
+
+1. Open the live demo.
+2. Click **K-pop Comeback** in the museum.
+3. In the studio, toggle to **Emoji**.
+4. Click **Copy JSON**.
+5. Click **Cat on Keyboard** in the museum.
+6. Toggle to **Kaomoji**.
+7. Click **Copy share link**.
+
+Aim for under 8 seconds and under 5 MB.
+
 ## Reducing GIF size manually
 
 If you tweak the demo and the GIF balloons, re-run ffmpeg by hand:
