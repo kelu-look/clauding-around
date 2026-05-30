@@ -76,7 +76,7 @@ export const personalities: Personality[] = [
     },
   },
   {
-    id: 'kpop-comeback',
+    id: 'k-pop-comeback',
     emoji: '🪩',
     name: 'K-pop Comeback',
     shortName: 'K-pop',
