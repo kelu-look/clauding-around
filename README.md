@@ -6,9 +6,8 @@ Claude doesn't just load. It can brew ☕, rehearse 🪩, debug 🐛, or purr on
 keyboard 🐈.
 
 [**Live demo →**](https://kelu-look.github.io/clauding-around/)
-· [GitHub repo](https://github.com/kelu-look/clauding-around)
-· [K-pop Comeback demo](https://kelu-look.github.io/clauding-around/#k-pop-comeback/emoji/append)
-· [Cat on Keyboard demo](https://kelu-look.github.io/clauding-around/#cat-on-keyboard/kaomoji/append)
+· [K-pop Comeback](https://kelu-look.github.io/clauding-around/#k-pop-comeback/emoji/append)
+· [Cat on Keyboard](https://kelu-look.github.io/clauding-around/#cat-on-keyboard/kaomoji/append)
 
 > Unofficial fan project. Not affiliated with Anthropic. The waiting
 > personalities are playful microcopy — they do **not** reveal Claude's real
@@ -20,8 +19,11 @@ keyboard 🐈.
 
 ![Clauding Around demo](docs/demo.gif)
 
-> Assets are captured automatically with Playwright. Regenerate them anytime
-> with `npm run capture` — see [`docs/README.md`](docs/README.md) for details.
+The demo shows switching from K-pop Comeback to Cat on Keyboard, toggling
+display styles, and copying ready-to-use config.
+
+<sub>Preview assets are generated with `npm run capture`; see
+[`docs/README.md`](docs/README.md) for details.</sub>
 
 ## What it does
 
@@ -55,12 +57,23 @@ Each link opens the demo with that pack pre-selected.
 5. Click **Copy JSON**.
 6. Paste the snippet into your Claude Code settings.
 
+A K-pop Comeback / Emoji / Append snippet looks like this:
+
+```json
+{
+  "spinnerVerbs": {
+    "mode": "append",
+    "verbs": ["🪩 Rehearsing", "🎧 Syncing", "💃 Choreographing"]
+  }
+}
+```
+
 > Emoji and kaomoji styles are marked **experimental** in the UI. Terminal
 > rendering varies widely by font and emoji-presentation engine — some glyphs
 > may look off in your terminal even though they look fine in the preview.
 > Switch back to **Classic** if anything renders oddly.
 
-## Share-link format
+## Share links
 
 ```
 #<personalityId>/<style>/<mode>
@@ -103,24 +116,6 @@ npm run preview   # serve the built bundle
 - **Vercel.** Import the repo; framework preset = **Vite**; build command
   `npm run build`; output directory `dist`.
 
-## Regenerating showcase assets
-
-This repo includes an automated Playwright capture script:
-
-```bash
-npm run capture
-```
-
-It rebuilds the app, launches a local preview server, and captures:
-
-- `docs/preview.png`
-- `docs/demo.webm`
-- `docs/demo.gif`
-
-The GIF is generated with `ffmpeg` when available. See
-[`docs/README.md`](docs/README.md) for capture details and manual alternatives
-(macOS Screenshot.app / Kap / gifski).
-
 ## Accessibility
 
 - Real `<button>` / radio-group semantics.
@@ -131,3 +126,7 @@ The GIF is generated with `ffmpeg` when available. See
 ## Tech
 
 React 18 · TypeScript · Vite 5 · Tailwind CSS 3 · No backend, no auth, no database.
+
+## License
+
+MIT
